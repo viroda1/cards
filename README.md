@@ -2,7 +2,6 @@
 
 A clean, visual website that organizes mathematics topics by grade level — from early counting to calculus and beyond. Built with a soft, modern aesthetic using cards and subtle blur effects.
 
-![screenshot placeholder](https://via.placeholder.com/800x400?text=Graded+Math+Preview)
 
 ## ✨ Features
 
