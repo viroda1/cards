@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>graded math · levels</title>
+    <!-- keeping the style clean, fresh, and slightly geometric — as before -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f7f9fe;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: #1b2b4c;
+            padding: 2rem 1.5rem;
+        }
+
+        /* main container – gentle width, like before */
+        .page {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(2px);
+            border-radius: 2.5rem;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 20px 40px -12px rgba(0,20,50,0.15);
+            border: 1px solid rgba(160, 190, 230, 0.3);
+        }
+
+        /* header area with the familiar vibe */
+        .math-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .math-header h1 {
+            font-weight: 600;
+            font-size: 2.4rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(145deg, #1d3b66, #2b4c8c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-right: 3px solid #a5c3f0;
+            padding-right: 1.2rem;
+            display: inline-block;
+        }
+
+        .math-header .pill {
+            background: #e5eeff;
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 500;
+            color: #1f3a6b;
+            font-size: 1.1rem;
+            border: 1px solid #c1d6ff;
+            backdrop-filter: blur(4px);
+        }
+
+        .sub {
+            font-size: 1.1rem;
+            color: #4a5f7e;
+            margin-bottom: 2.5rem;
+            padding-left: 0.5rem;
+            border-left: 5px solid #98b9f0;
+            padding-top: 0.2rem;
+            padding-bottom: 0.2rem;
+        }
+
+        /* grade grid — responsive and airy */
+        .grade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.8rem;
+            margin: 2.8rem 0 2rem;
+        }
+
+        /* each grade card — subtle rounded presence */
+        .grade-card {
+            background: #ffffffdd;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(165, 190, 230, 0.6);
+            border-radius: 2rem;
+            padding: 1.6rem 1.2rem 1.4rem 1.2rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 18px -8px rgba(30,60,120,0.12);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .grade-card:hover {
+            transform: translateY(-5px);
+            border-color: #7da2e0;
+            box-shadow: 0 18px 28px -12px #1e3a5f44;
+            background: white;
+        }
+
+        .grade-tag {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #4d6a9b;
+            border-bottom: 2px dotted #b3caf5;
+            padding-bottom: 0.4rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .grade-name {
+            font-size: 2rem;
+            font-weight: 650;
+            line-height: 1.2;
+            color: #11223b;
+            margin-bottom: 0.75rem;
+        }
+
+        .grade-description {
+            font-size: 0.95rem;
+            color: #2e405f;
+            margin-bottom: 1.4rem;
+            flex: 1;
+        }
+
+        .topic-list {
+            list-style: none;
+            margin-top: 0.4rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .topic-list li {
+            font-size: 0.9rem;
+            padding: 0.3rem 0 0.3rem 1.2rem;
+            position: relative;
+            color: #1b334f;
+        }
+
+        .topic-list li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #527fcb;
+            font-weight: 600;
+        }
+
+        .btn-soft {
+            background: transparent;
+            border: 1.5px solid #b7cff5;
+            border-radius: 40px;
+            padding: 0.5rem 0.2rem;
+            width: 100%;
+            font-weight: 550;
+            color: #25477a;
+            font-size: 0.95rem;
+            margin-top: 0.6rem;
+            transition: 0.15s;
+            cursor: default; /* non-interactive demo, but style matches */
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-soft:hover {
+            background: #dbe6ff;
+            border-color: #6f99e0;
+        }
+
+        /* highlight for advanced / extras */
+        .extra-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2.2rem;
+            padding-top: 1.8rem;
+            border-top: 2px solid #d7e3fd;
+        }
+
+        .extra-item {
+            background: #eef4fd;
+            border-radius: 2rem;
+            padding: 0.8rem 2rem 0.8rem 1.5rem;
+            font-weight: 500;
+            border: 1px solid #aec4ec;
+            color: #1e396b;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .extra-item span {
+            font-size: 1.4rem;
+        }
+
+        .footer-note {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: #5b6f8e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .tag-blur {
+            background: #e1eaff;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: #1c3f6e;
+        }
+
+        /* keep responsiveness tight */
+        @media (max-width: 600px) {
+            .page { padding: 1.5rem 1rem; }
+            .grade-name { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    
+    <!-- header with grade pill (the style we've been using) -->
+    <div class="math-header">
+        <h1>∕ grades of math ∕</h1>
+        <div class="pill">K—12 & beyond</div>
+    </div>
+    <div class="sub">
+        ← topics sequenced by level · from counting to calculus
+    </div>
+
+    <!-- grade grid – elementary to high school, each card shows a slice -->
+    <div class="grade-grid">
+        
+        <!-- grade K / early -->
+        <div class="grade-card">
+            <div class="grade-tag">pre‑K · K</div>
+            <div class="grade-name">K</div>
+            <div class="grade-description">counting, shapes, number sense.</div>
+            <ul class="topic-list">
+                <li>count to 20</li>
+                <li>sorting & colours</li>
+                <li>basic addition (fingers)</li>
+            </ul>
+            <div class="btn-soft">🔢   playful</div>
+        </div>
+
+        <!-- grade 1 -->
+        <div class="grade-card">
+            <div class="grade-tag">grade 1</div>
+            <div class="grade-name">1</div>
+            <div class="grade-description">adding & subtracting within 20.</div>
+            <ul class="topic-list">
+                <li>place value (tens/ones)</li>
+                <li>telling time</li>
+                <li>simple graphs</li>
+            </ul>
+            <div class="btn-soft">⏲️   early logic</div>
+        </div>
+
+        <!-- grade 2 -->
+        <div class="grade-card">
+            <div class="grade-tag">grade 2</div>
+            <div class="grade-name">2</div>
+            <div class="grade-description">add/subtract to 100, measurement.</div>
+            <ul class="topic-list">
+                <li>odd & even</li>
+                <li>money / coins</li>
+                <li>intro to arrays</li>
+            </ul>
+            <div class="btn-soft">📏   measure up</div>
+        </div>
+
+        <!-- grade 3 -->
+        <div class="grade-card">
+            <div class="grade-tag">grade 3</div>
+            <div class="grade-name">3</div>
+            <div class="grade-description">multiplication, division, fractions.</div>
+            <ul class="topic-list">
+                <li>times tables</li>
+                <li>area & perimeter</li>
+                <li>fraction basics</li>
+            </ul>
+            <div class="btn-soft">✖️   multiply</div>
+        </div>
+
+        <!-- grade 4 -->
+        <div class="grade-card">
+            <div class="grade-tag">grade 4</div>
+            <div class="grade-name">4</div>
+            <div class="grade-description">multi‑digit arithmetic, geometry.</div>
+            <ul class="topic-list">
+                <li>long multiplication</li>
+                <li>equivalent fractions</li>
+                <li>angles & symmetry</li>
+            </ul>
+            <div class="btn-soft">📐   sketch</div>
+        </div>
+
+        <!-- grade 5 -->
+        <div class="grade-card">
+            <div class="grade-tag">grade 5</div>
+            <div class="grade-name">5</div>
+            <div class="grade-description">fractions, decimals, volume.</div>
+            <ul class="topic-list">
+                <li>add/subtract fractions</li>
+                <li>decimal place value</li>
+                <li>coordinate grid</li>
+            </ul>
+            <div class="btn-soft">🎯   precision</div>
+        </div>
+
+        <!-- grade 6 -->
+        <div class="grade-card">
+            <div class="grade-tag">grade 6</div>
+            <div class="grade-name">6</div>
+            <div class="grade-description">ratios, expressions, negative numbers.</div>
+            <ul class="topic-list">
+                <li>rates & percentages</li>
+                <li>intro to algebra</li>
+                <li>statistics / data</li>
+            </ul>
+            <div class="btn-soft">📊   reason</div>
+        </div>
+
+        <!-- grade 7 -->
+        <div class="grade-card">
+            <div class="grade-tag">grade 7</div>
+            <div class="grade-name">7</div>
+            <div class="grade-description">proportions, probability, equations.</div>
+            <ul class="topic-list">
+                <li>two‑step equations</li>
+                <li>scale drawings</li>
+                <li>compound probability</li>
+            </ul>
+            <div class="btn-soft">🧮   proportional</div>
+        </div>
+
+        <!-- grade 8 -->
+        <div class="grade-card">
+            <div class="grade-tag">grade 8</div>
+            <div class="grade-name">8</div>
+            <div class="grade-description">linear equations, functions, Pythagorean.</div>
+            <ul class="topic-list">
+                <li>slope & intercepts</li>
+                <li>irrational numbers</li>
+                <li>volume (cones, spheres)</li>
+            </ul>
+            <div class="btn-soft">📈   linear</div>
+        </div>
+
+        <!-- Algebra I (often 9) -->
+        <div class="grade-card">
+            <div class="grade-tag">algebra I</div>
+            <div class="grade-name">⩺ 9</div>
+            <div class="grade-description">systems, quadratics, exponential.</div>
+            <ul class="topic-list">
+                <li>factoring</li>
+                <li>inequalities</li>
+                <li>exponent rules</li>
+            </ul>
+            <div class="btn-soft">⚡   variable</div>
+        </div>
+
+        <!-- Geometry -->
+        <div class="grade-card">
+            <div class="grade-tag">geometry</div>
+            <div class="grade-name">⩺10</div>
+            <div class="grade-description">proofs, triangles, circles, trig intro.</div>
+            <ul class="topic-list">
+                <li>congruence & similarity</li>
+                <li>right triangle trig</li>
+                <li>arcs & sectors</li>
+            </ul>
+            <div class="btn-soft">⭕   deductive</div>
+        </div>
+
+        <!-- Algebra II -->
+        <div class="grade-card">
+            <div class="grade-tag">algebra II</div>
+            <div class="grade-name">⩺11</div>
+            <div class="grade-description">polynomials, logs, complex numbers.</div>
+            <ul class="topic-list">
+                <li>rational functions</li>
+                <li>exponential modeling</li>
+                <li>sequences & series</li>
+            </ul>
+            <div class="btn-soft">📉   advanced</div>
+        </div>
+
+        <!-- Pre‑calculus / trigonometry -->
+        <div class="grade-card">
+            <div class="grade-tag">pre‑calc</div>
+            <div class="grade-name">⩺12</div>
+            <div class="grade-description">trig identities, vectors, conics.</div>
+            <ul class="topic-list">
+                <li>unit circle</li>
+                <li>polar coordinates</li>
+                <li>matrices</li>
+            </ul>
+            <div class="btn-soft">🌀   prepare</div>
+        </div>
+    </div>
+
+    <!-- Extras: college level & adjacent (still within 'grades of math') -->
+    <div class="extra-row">
+        <div class="extra-item"><span>📘</span> calculus · limits, derivatives, integrals</div>
+        <div class="extra-item"><span>📙</span> statistics · probability, inference, distributions</div>
+        <div class="extra-item"><span>📗</span> linear algebra · spaces, eigenvectors</div>
+    </div>
+
+    <!-- footer with light homage to the style: pill-like info -->
+    <div class="footer-note">
+        <span class="tag-blur">✦ each card shows core topics ✦</span>
+        <span style="display: flex; gap: 1.2rem;">
+            <span>K–5 foundations</span>
+            <span>6–8 pre-algebra</span>
+            <span>9–12 college prep</span>
+        </span>
+    </div>
+
+    <!-- small design reminder: "the style we've been using" – clean, soft cards, blur, pastel touches -->
+    <div style="margin-top: 1.2rem; font-size: 0.85rem; color: #778ca3; text-align: right; border-top: 1px dashed #b7c9ed; padding-top: 1rem;">
+        ∎ sequenced by grade · always free · open math topics
+    </div>
+</div>
+<!-- end page -->
+</body>
+</html>
